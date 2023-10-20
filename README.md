@@ -61,7 +61,7 @@ In order to use the Storage Containers from our Databricks Notebooks we need to 
   - Set the access key to Secrets scope of Databricks in order to be safe
   - Configure using this access key
   - Access the containers using **abfss**
-- Shared Access Signature (SAS)
+- Shared Access Signature (SAS) [Best for short-term and low permission accesses]
   - Right click on the container that we want to acces and click Generate SAS
   - Append the SAS token to the Secrets scope of Databricks
   - Configure using these credentials
@@ -72,7 +72,8 @@ In order to use the Storage Containers from our Databricks Notebooks we need to 
   - Use client-id, tenant-id and client-secret produced from this App for configuration
   - Use abfss to access to the wanted container
 
-We **dbutils.fs.mount** command and pass the Service Principal creds, in order to mount the whole container, se we can easily access the data without using abfss link (too big). 
+We also used **dbutils.fs.mount** command and passed the Service Principal creds, in order to mount the whole container, se we can easily access the data without using abfss link (too big). 
+
 ### Dashboards
 
 After creating the Presentation tables we can create Dashboard from within the Databricks Notebook. In our example the tables used are the calculated_race_results.
@@ -81,6 +82,7 @@ After creating the Presentation tables we can create Dashboard from within the D
 <img src="https://github.com/dmoralis/AzureETLFormula1Project/assets/56253720/7aeceb32-1317-43e2-a55d-d6c5e761ba8d"  width="48%" height="200px">
 
 
+### Pipeline Orchestration & Schedule
 
 
 
