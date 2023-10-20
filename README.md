@@ -53,7 +53,27 @@ The data is coming to the data lake incrementally every week, and it is discrimi
 
 In order to make a full load of the new data every week we **overwrite** the old data, and in order to incrementally add the new data to the old data we need to take advantage of the **Merge** command supported only by **Delta** tables (not parquet). This is an expensive but powerful command that allows us to **replace** and **add** new data in a table based on the matching of the primary keys of the new and old data table.
 
-### Presentation Dashboard
+### Configuration 
+
+In order to use the Storage Containers from our Databricks Notebooks we need to set an authentication method between the two services. The choises are:
+- Access Key
+  - Create an access key from the **Key Vault**
+  - Set the access key to Secrets scope of Databricks in order to be safe
+  - Configure using this access key
+  - Access the containers using **abfss**
+- Shared Access Signature (SAS)
+  - Right click on the container that we want to acces and click Generate SAS
+  - Append the SAS token to the Secrets scope of Databricks
+  - Configure using these credentials
+- Service Principal (We used this)
+  - Open Microsoft Entra ID
+  - Create an App and open Crtificates & Secrets
+  - Then create a new client secret
+  - Use client-id, tenant-id and client-secret produced from this App for configuration
+  - Use abfss to access to the wanted container
+
+We **dbutils.fs.mount** command and pass the Service Principal creds, in order to mount the whole container, se we can easily access the data without using abfss link (too big). 
+### Dashboards
 
 After creating the Presentation tables we can create Dashboard from within the Databricks Notebook. In our example the tables used are the calculated_race_results.
 
