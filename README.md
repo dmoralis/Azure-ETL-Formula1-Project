@@ -77,8 +77,8 @@ We **dbutils.fs.mount** command and pass the Service Principal creds, in order t
 
 After creating the Presentation tables we can create Dashboard from within the Databricks Notebook. In our example the tables used are the calculated_race_results.
 
-<img src="https://github.com/dmoralis/AzureETLFormula1Project/assets/56253720/d6750208-8265-4837-a401-88034622a325"  width="48%" height="300px">
-<img src="https://github.com/dmoralis/AzureETLFormula1Project/assets/56253720/7aeceb32-1317-43e2-a55d-d6c5e761ba8d"  width="48%" height="300px">
+<img src="https://github.com/dmoralis/AzureETLFormula1Project/assets/56253720/d6750208-8265-4837-a401-88034622a325"  width="48%" height="200px">
+<img src="https://github.com/dmoralis/AzureETLFormula1Project/assets/56253720/7aeceb32-1317-43e2-a55d-d6c5e761ba8d"  width="48%" height="200px">
 
 
 
