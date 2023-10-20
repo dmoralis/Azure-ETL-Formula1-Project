@@ -57,6 +57,8 @@ In order to make a full load of the new data every week we **overwrite** the old
 
 After creating the Presentation tables we can create Dashboard from within the Databricks Notebook. In our example the tables used are the calculated_race_results.
 
+<img src="https://github.com/dmoralis/AzureETLFormula1Project/assets/56253720/d6750208-8265-4837-a401-88034622a325"  width="40%" height="300">
+
 ![f1_dom_teams](https://github.com/dmoralis/AzureETLFormula1Project/assets/56253720/d6750208-8265-4837-a401-88034622a325)
 ![f1_dom_drivers](https://github.com/dmoralis/AzureETLFormula1Project/assets/56253720/7aeceb32-1317-43e2-a55d-d6c5e761ba8d)
 
