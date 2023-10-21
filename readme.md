@@ -78,8 +78,8 @@ Additionally, **dbutils.fs.mount** command is employed to streamline container a
 
 After creating the Presentation tables, dashboards can be created from within the Databricks Notebook. In this example, the tables used are the calculated_race_results.
 
-<img src="https://github.com/dmoralis/AzureETLFormula1Project/assets/56253720/d6750208-8265-4837-a401-88034622a325"  width="48%" height="200px">
-<img src="https://github.com/dmoralis/AzureETLFormula1Project/assets/56253720/7aeceb32-1317-43e2-a55d-d6c5e761ba8d"  width="48%" height="200px">
+<img src="https://github.com/dmoralis/AzureETLFormula1Project/assets/56253720/d6750208-8265-4837-a401-88034622a325"  width="48%" height="250px">
+<img src="https://github.com/dmoralis/AzureETLFormula1Project/assets/56253720/7aeceb32-1317-43e2-a55d-d6c5e761ba8d"  width="48%" height="250px">
 
 ### Pipeline Orchestration & Schedule
 
