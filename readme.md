@@ -88,7 +88,7 @@ Our pipeline consists of two sub-pipelines:
 - Transformation
 Both of these pipelines use If-statements in order to avoid any errors, while waiting for a **Tumbling Window** trigger to fire every week ta Sundays, where the F1 race takes place.
 
-<img src="[(https://github.com/dmoralis/Information_Retrival/assets/56253720/53be44ec-7f8d-4a38-af5e-e0f864ed8df3)](https://github.com/dmoralis/Information_Retrival/assets/56253720/97944746-d16b-44fd-a9eb-469050545a7d)"  width="48%" height="300px">
+<img src="https://github.com/dmoralis/Information_Retrival/assets/56253720/a49c9b5c-3255-46c9-820b-b0384c1cb996"  width="48%" height="300px">
 
 
 
