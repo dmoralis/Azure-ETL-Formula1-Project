@@ -37,9 +37,9 @@ Each of these tables comes with a clear name and serves a distinct purpose. For 
 ### Storage
 Our project uses Azure Data Lake Gen2 throughout its journey, divided into three phases: Bronze, Silver, and Gold, each in its own container:
 
--**Bronze**: Where we store the raw, untouched data.
--**Silver**: Data refinement takes place here, preparing it for deeper analysis.
--**Gold**: The data undergoes the most transformation and is ready for in-depth analysis.
+- **Bronze**: Where we store the raw, untouched data.
+- **Silver**: Data refinement takes place here, preparing it for deeper analysis.
+- **Gold**: The data undergoes the most transformation and is ready for in-depth analysis.
 
 
 ### Ingestion & Transformation
