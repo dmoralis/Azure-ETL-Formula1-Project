@@ -86,4 +86,11 @@ After creating the Presentation tables, dashboards can be created from within th
 While pipeline orchestration can be managed within the Databricks Workflow section, we opt for a more robust solution, Azure Data Factory. Our pipeline comprises two distinct sub-pipelines: Ingestion and Transformation. To ensure error-free execution, we implement If-statements and schedule the pipelines to run on a **Tumbling Window** trigger. This trigger activates every week on Sundays, along with F1 race events, and it provides a dynamic **p_window_end_date** parameter at the close of the trigger window.
 
 
+### Unity Catalog
 
+Unity Catalog is examined in this project due to the capabilities offering:
+
+- Data Discoverability
+- Data Audit
+- Data Lineage
+- Security
