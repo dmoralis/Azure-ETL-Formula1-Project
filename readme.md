@@ -34,28 +34,26 @@ Each of them has a descriptive name. For more information about these tables, yo
 
 ## Project Details
 
+### Storage
+The data is saved in the same Data Lake Gen2 in all 3 phases: **Bronze**, **Silver**, **Gold** but in different containers. Bronze refers to the raw data, Silver to the processed data and Gold to the highly transformed data which is ready for analysis use. 
+
+
 ### Ingestion
 
-**Azure Databricks** is used in combination with Notebooks and a Cluster to extract the files that were manually uploaded to a **Raw** container. The column names are converted from Camel Case to Snake Case where needed. The transformed data is then saved in a **Processed** container in the Data Lake Gen2. The data is also used to create production-level tables, which are saved in the **Presentation** container in the same data lake.
-
-The languages used in the notebooks are **PySpark** and **SQL** to extract data from the Raw container and create a **schema** with managed tables for the Processed container. The data is transformed from the Processed schema to create new tables in a Presentation **schema** with managed tables:
+**Azure Databricks** is used for ingestion, supplying Notebooks, a Cluster and the languages **PySpark** and **SQL**. First we extract the F1 files that were manually uploaded to the Bronze container and convert the column names from Camel Case to Snake Case where needed. Then the resulting tables are saved in a **schema** or **database** which has as storage location the Silver container. These processed data is used to create production-level tables, which are saved in a **schema** with base location the Gold container, as managed tables:
 
 - race_results
-    Columns: |race_year|race_name|race_date|circuit_location|driver_name|driver_number|driver_nationality|team|fastest_lap|position|race_time|points|file_date|race_id|created_date|
 - driver_standings
-    Columns: |race_year|driver_name|team|total_points|wins|rank|
 - constructor_standings
-    Columns: |team|race_year|total_points|wins|rank|
 - calculated_race_results
-    Columns: |race_year|team_name|driver_id|driver_name|race_id|position|points|calculated_points|created_date|updated_date|
 
-The data is added to the data lake incrementally every week, and it's categorized as **Dimension** and **Fact** tables. Dimension tables require a **Full Load**, as they are small and don't change frequently. Fact tables require an **Incremental Load** because the full data can be large, and updates are frequent. The dimension tables include: Circuits, Races, Constructors, and Drivers, while the fact tables include: Results, PitStops, LapTimes, and Qualifying. It's important to note that due to the incremental load, two new columns are appended to each Fact table: **create_date** and **update_date** to track data updates and support dynamic calculated tables.
+The data is added to the Data Lake Gen2 incrementally every week, and it's categorized as **Dimension** and **Fact** tables. Dimension tables require a **Full Load**, as they are small and don't change frequently. Fact tables require an **Incremental Load** because the full data can be large, and updates are frequent. The dimension tables include: Circuits, Races, Constructors, and Drivers, while the fact tables include: Results, PitStops, LapTimes, and Qualifying. It's important to note that due to the incremental load, two new columns are appended to each Fact table: **create_date** and **update_date** to track data updates and support dynamic calculated tables.
 
 To perform a full load of new data every week, the old data is **overwritten**, and for incremental data, the **Merge** command is used, which is supported only by **Delta** tables, not Parquet. This command allows for the **replacement** and **addition** of new data in a table based on matching primary keys between the new and old data tables.
 
 ### Configuration
 
-To use the Storage Containers from Databricks Notebooks, an authentication method is set up between the two services. The choices are:
+To use the Storage Containers from Databricks Notebooks, a configuration method is set up between the two services. The choices are:
 
 - Access Key
   - Create an access key from the **Key Vault**
@@ -83,3 +81,16 @@ After creating the Presentation tables, dashboards can be created from within th
 <img src="https://github.com/dmoralis/AzureETLFormula1Project/assets/56253720/7aeceb32-1317-43e2-a55d-d6c5e761ba8d"  width="48%" height="200px">
 
 ### Pipeline Orchestration & Schedule
+
+Pipeline Orchestation and Schedule can take place in Databricks Workflow section, but it is prefered to use a service like Azure Data Factory because of the different capabilities it provides. 
+Our pipeline consists of two sub-pipelines:
+- Ingestion
+- Transformation
+Both of these pipelines use If-statements in order to avoid any errors, while waiting for a **Tumbling Window** trigger to fire every week ta Sundays, where the F1 race takes place.
+
+<img src="(https://github.com/dmoralis/Information_Retrival/assets/56253720/53be44ec-7f8d-4a38-af5e-e0f864ed8df3)"  width="48%" height="200px">
+
+
+
+
+
