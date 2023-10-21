@@ -86,9 +86,10 @@ Pipeline Orchestation and Schedule can take place in Databricks Workflow section
 Our pipeline consists of two sub-pipelines:
 - Ingestion
 - Transformation
+  
 Both of these pipelines use If-statements in order to avoid any errors, while waiting for a **Tumbling Window** trigger to fire every week ta Sundays, where the F1 race takes place.
 
-<img src="https://github.com/dmoralis/Information_Retrival/assets/56253720/a49c9b5c-3255-46c9-820b-b0384c1cb996"  width="48%" height="300px">
+<img src="https://github.com/dmoralis/Information_Retrival/assets/56253720/a49c9b5c-3255-46c9-820b-b0384c1cb996">
 
 
 
