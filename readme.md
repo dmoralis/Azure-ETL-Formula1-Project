@@ -4,74 +4,75 @@ This project is part of my course attendance about Azure Databricks, using the U
 
 ![f1_project_graph](https://github.com/dmoralis/AirflowETLWeatherProject/assets/56253720/c62296be-61a8-4df1-8d62-cb3f92a40941)
 
-**The image source is from the Azure Databricks & Spark For Data Engineers (PySpark / SQL) Course by Ramesh Retnasamy**
+*Image source: Azure Databricks & Spark For Data Engineers (PySpark / SQL) Course by Ramesh Retnasamy*
 
-## Technologies Used
+## Technologies Utilized
 
-- **Azure Databricks**
-- **PySpark - SQL**
-- **Azure Workspace**
-- **Azure Resource Group**
-- **Azure Data Lake Gen2**
-- **Azure Data Factory**
-- **Azure Delta Lake**
-- **Unity Catalog**
+- **Azure Databricks**: The heart of our data transformation and analysis efforts.
+- **PySpark - SQL**: The primary languages enabling data manipulation and querying.
+- **Azure Workspace**: Our collaborative work environment.
+- **Azure Resource Group**: For efficient resource management.
+- **Azure Data Lake Gen2**: The repository of our data, providing scalability and reliability.
+- **Azure Data Factory**: Orchestrating our ETL processes.
+- **Azure Delta Lake**: Enhancing our data lake with transactional capabilities.
+- **Unity Catalog**: Providing a centralized metadata repository.
 
-## Data Overview
+## Data Insight
 
 The tables in the Formula 1 dataset are as follows:
 
-- Circuits (CSV)
-- Races (CSV)
-- Constructors (Single Line JSON)
-- Drivers (Single Line Nested JSON)
-- Results (Single Line JSON)
-- PitStops (Multi Line JSON)
-- LapTimes (Split CSV Files)
-- Qualifying (Split Multi Line JSON Files)
+- **Circuits** (CSV)
+- **Races** (CSV)
+- **Constructors** (Single Line JSON)
+- **Drivers** (Single Line Nested JSON)
+- **Results** (Single Line JSON)
+- **PitStops** (Multi Line JSON)
+- **LapTimes** (Split CSV Files)
+- **Qualifying** (Split Multi Line JSON Files)
 
-Each of them has a descriptive name. For more information about these tables, you can visit the official site's user guide: [F1DB User Guide](https://ergast.com/docs/f1db_user_guide.txt)
+Each of these tables comes with a clear name and serves a distinct purpose. For a deeper understanding of these tables, you can refer to the official user guide available here: F1DB User Guide.
 
 ## Project Details
 
 ### Storage
-The data is saved in the same Data Lake Gen2 in all 3 phases: **Bronze**, **Silver**, **Gold** but in different containers. Bronze refers to the raw data, Silver to the processed data and Gold to the highly transformed data which is ready for analysis use. 
+Our project uses Azure Data Lake Gen2 throughout its journey, divided into three phases: Bronze, Silver, and Gold, each in its own container:
+
+-**Bronze**: Where we store the raw, untouched data.
+-**Silver**: Data refinement takes place here, preparing it for deeper analysis.
+-**Gold**: The data undergoes the most transformation and is ready for in-depth analysis.
 
 
 ### Ingestion & Transformation
 
-**Azure Databricks** is used for ingestion and transformation, supplying Notebooks, a Cluster and the languages **PySpark** and **SQL**. With these tool, we extract the F1 files that were manually uploaded to the Bronze container and convert the column names from Camel Case to Snake Case where needed. Then the resulting tables are saved in a **schema** or **database** which has as storage location the Silver container. These processed data is used to create production-level tables, which are saved in a **schema** with base location the Gold container, as managed tables:
 
-- race_results
-- driver_standings
-- constructor_standings
-- calculated_race_results
+**Azure Databricks** emerges as the tool behind data ingestion and transformation. We employ Notebooks, a dedicated Cluster, and leverage the PySpark and SQL languages to craft this transformation. The process unfolds as follows:
 
-The data is added to the Data Lake Gen2 incrementally every week, and it's categorized as **Dimension** and **Fact** tables. Dimension tables require a **Full Load**, as they are small and don't change frequently. Fact tables require an **Incremental Load** because the full data can be large, and updates are frequent. The dimension tables include: Circuits, Races, Constructors, and Drivers, while the fact tables include: Results, PitStops, LapTimes, and Qualifying. It's important to note that due to the incremental load, two new columns are appended to each Fact table: **create_date** and **update_date** to track data updates and support dynamic calculated tables.
+- Data is extracted from Formula 1 files manually uploaded to the Bronze container.
+- Column names are converted from Camel Case to Snake Case, ensuring consistency.
+- Processed data is stored in a defined schema or database, with the Silver container serving as its storage location.
+- Production-level tables are crafted, residing in a schema with the Gold container as the base location. The crafted tables include:
+  - **race_results**
+  - **driver_standings**
+  - **constructor_standings**
+  - **calculated_race_results**
 
-To perform a full load of new data every week, the old data is **overwritten**, and for incremental data, the **Merge** command is used, which is supported only by **Delta** tables, not Parquet. This command allows for the **replacement** and **addition** of new data in a table based on matching primary keys between the new and old data tables.
+Data is incrementally added to the Data Lake Gen2 every week, categorized as both **Dimension** and **Fact** tables. Dimension tables undergo a **Full Load** due to their static nature, while Fact tables need an **Incremental Load** because of their size and frequent updates. The dimension tables comprise Circuits, Races, Constructors, and Drivers, while the fact tables consist of Results, PitStops, LapTimes, and Qualifying. In order to facilitate incremental loading, two additional columns, **create_date** and **update_date**, are appended to each Fact table to monitor data updates and support dynamic calculated tables.
+
+The data update process varies as follows:
+- Full Load data is overwritten every week.
+- Incremental data utilizes the **Merge** command, exclusive to Delta tables (not Parquet), to replace and add new data based on matching primary keys between new and existing data.
 
 ### Configuration
 
-To use the Storage Containers from Databricks Notebooks, a configuration method is set up between the two services. The choices are:
+To use the Storage Containers from Databricks Notebooks, a configuration method needs to be set up between the two services. The distinct options for this purpose are:
 
-- Access Key
-  - Create an access key from the **Key Vault**
-  - Set the access key in the Secrets scope of Databricks for security
-  - Configure access using this access key
-  - Access the containers using **abfss**
-- Shared Access Signature (SAS) [Best for short-term and low permission accesses]
-  - Right-click on the container you want to access and generate a SAS token
-  - Append the SAS token to the Secrets scope of Databricks
-  - Configure using these credentials
-- Service Principal (Used in this project)
-  - Open Microsoft Azure ID
-  - Create an App and open Certificates & Secrets
-  - Create a new client secret
-  - Use the client-id, tenant-id, and client-secret from this App for configuration
-  - Use abfss to access the desired container
+- **Access Key**: Create an access key from the Key Vault, safeguarded in Databricks Secrets for enhanced security. Access the containers using **abfss**.
 
-Additionally, **dbutils.fs.mount** command is used to mount the whole container using Service Principal credentials, making data access more convenient without using abfss links.
+- **Shared Access Signature (SAS)**: Ideal for short-term and low-permission access. Generate a SAS token for the container and incorporate it into Databricks Secrets. Configure your setup using these credentials.
+
+- **Service Principal (Used in this project)**: Leverage a Service Principal with a client secret, enhancing security. Configure your setup using the **abfss** to access the desired container.
+
+Additionally, **dbutils.fs.mount** command is employed to streamline container access through Service Principal credentials, simplifying data retrieval without relying on abfss links.
 
 ### Dashboards
 
@@ -82,13 +83,7 @@ After creating the Presentation tables, dashboards can be created from within th
 
 ### Pipeline Orchestration & Schedule
 
-Pipeline Orchestation and Schedule can take place in Databricks Workflow section, but it is prefered to use a service like Azure Data Factory because of the different capabilities it provides. 
-Our pipeline consists of two sub-pipelines:
-- Ingestion
-- Transformation
-  
-Both of these pipelines use If-statements in order to avoid any errors, while waiting for a **Tumbling Window** trigger to fire every week on Sundays, where the F1 race takes place, and provide a **p_window_end_date** parameter that is given at the end of the trigger window.
-
+While pipeline orchestration can be managed within the Databricks Workflow section, we opt for a more robust solution, Azure Data Factory. Our pipeline comprises two distinct sub-pipelines: Ingestion and Transformation. To ensure error-free execution, we implement If-statements and schedule the pipelines to run on a **Tumbling Window** trigger. This trigger activates every week on Sundays, along with F1 race events, and it provides a dynamic **p_window_end_date** parameter at the close of the trigger window.
 
 
 
