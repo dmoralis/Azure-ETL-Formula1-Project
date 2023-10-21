@@ -38,7 +38,7 @@ Each of them has a descriptive name. For more information about these tables, yo
 The data is saved in the same Data Lake Gen2 in all 3 phases: **Bronze**, **Silver**, **Gold** but in different containers. Bronze refers to the raw data, Silver to the processed data and Gold to the highly transformed data which is ready for analysis use. 
 
 
-### Ingestion
+### Ingestion & Transformation
 
 **Azure Databricks** is used for ingestion, supplying Notebooks, a Cluster and the languages **PySpark** and **SQL**. First we extract the F1 files that were manually uploaded to the Bronze container and convert the column names from Camel Case to Snake Case where needed. Then the resulting tables are saved in a **schema** or **database** which has as storage location the Silver container. These processed data is used to create production-level tables, which are saved in a **schema** with base location the Gold container, as managed tables:
 
@@ -87,9 +87,7 @@ Our pipeline consists of two sub-pipelines:
 - Ingestion
 - Transformation
   
-Both of these pipelines use If-statements in order to avoid any errors, while waiting for a **Tumbling Window** trigger to fire every week ta Sundays, where the F1 race takes place.
-
-<img src="https://github.com/dmoralis/Information_Retrival/assets/56253720/a49c9b5c-3255-46c9-820b-b0384c1cb996">
+Both of these pipelines use If-statements in order to avoid any errors, while waiting for a **Tumbling Window** trigger to fire every week ta Sundays, where the F1 race takes place, and provide a **p_window_end_date** parameter that is given at the end of the trigger window.
 
 
 
