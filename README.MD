@@ -1,4 +1,4 @@
-# Enhanced Description of Formula 1 Azure ETL Project
+# Formula 1 Azure ETL Project
 
 ## Project Overview
 
