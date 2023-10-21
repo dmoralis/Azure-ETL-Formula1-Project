@@ -47,7 +47,7 @@ Our project uses Azure Data Lake Gen2 throughout its journey, divided into three
 
 **Azure Databricks** emerges as the tool behind data ingestion and transformation. We employ Notebooks, a dedicated Cluster, and leverage the PySpark and SQL languages to craft this transformation. The process unfolds as follows:
 
-- Data is extracted from Formula 1 files manually uploaded to the Bronze container.
+- Data is extracted from Formula 1 files that was manually uploaded to the Bronze container.
 - Column names are converted from Camel Case to Snake Case, ensuring consistency.
 - Processed data is stored in a defined schema or database, with the Silver container serving as its storage location.
 - Production-level tables are crafted, residing in a schema with the Gold container as the base location. The crafted tables include:
