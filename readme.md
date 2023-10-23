@@ -100,3 +100,6 @@ Unity Catalog is examined in this project due to the capabilities offering:
   Manage data access policies across multiple workspaces using an inheritance model.
 
 During this course, we created a demo project to utilize the Unity Catalog Metastore. We gained access to tables from both managed and external table scopes, all while exploring these powerful features through the user-friendly Databricks UI.
+
+
+*Source file: Formula1.zip*
