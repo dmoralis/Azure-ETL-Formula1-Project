@@ -49,8 +49,8 @@ Our project uses Azure Data Lake Gen2 throughout its journey, divided into three
 
 - Data is extracted from Formula 1 files that was manually uploaded to the Bronze container.
 - Column names are converted from Camel Case to Snake Case, ensuring consistency.
-- Processed data is stored in a defined schema or database, with the Silver container serving as its storage location.
-- Production-level tables are crafted, residing in a schema with the Gold container as the base location. The crafted tables include:
+- Processed data are stored by delta format in a defined schema, with the Silver container serving as its storage location.
+- Production-level tables are crafted, residing in a schema with the Gold container as the base location. The crafted tables are delta formated too and include:
   - **race_results**
   - **driver_standings**
   - **constructor_standings**
