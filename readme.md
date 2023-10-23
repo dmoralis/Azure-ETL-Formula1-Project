@@ -91,6 +91,12 @@ While pipeline orchestration can be managed within the Databricks Workflow secti
 Unity Catalog is examined in this project due to the capabilities offering:
 
 - Data Discoverability
+  Easily search for data and find schema information
 - Data Audit
+  Keep track of who accesses your data with user-level audit logs
 - Data Lineage
-- Security
+  Understand the journey of your data through the pipeline, including where it originated (upstream), how it has been modified, and where it's headed (downstream).
+- Centralized Access Control
+  Manage data access policies across multiple workspaces using an inheritance model.
+
+During this course, we created a demo project to utilize the Unity Catalog Metastore. We gained access to tables from both managed and external table scopes, all while exploring these powerful features through the user-friendly Databricks UI.
