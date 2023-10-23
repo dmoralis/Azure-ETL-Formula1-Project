@@ -56,7 +56,7 @@ Our project uses Azure Data Lake Gen2 throughout its journey, divided into three
   - **constructor_standings**
   - **calculated_race_results**
 
-Data is incrementally added to the Data Lake Gen2 every week, categorized as both **Dimension** and **Fact** tables. Dimension tables undergo a **Full Load** due to their static nature, while Fact tables need an **Incremental Load** because of their size and frequent updates. The dimension tables comprise Circuits, Races, Constructors, and Drivers, while the fact tables consist of Results, PitStops, LapTimes, and Qualifying. In order to facilitate incremental loading, two additional columns, **create_date** and **update_date**, are appended to each Fact table to monitor data updates and support dynamic calculated tables.
+Data is incrementally added to the Delta Lake Gen2 every week, categorized as both **Dimension** and **Fact** delta tables. Dimension tables undergo a **Full Load** due to their static nature, while Fact tables need an **Incremental Load** because of their size and frequent updates. The dimension tables comprise Circuits, Races, Constructors, and Drivers, while the fact tables consist of Results, PitStops, LapTimes, and Qualifying. In order to facilitate incremental loading, two additional columns, **create_date** and **update_date**, are appended to each Fact table to monitor data updates and support dynamic calculated tables.
 
 The data update process varies as follows:
 - Full Load data is overwritten every week.
